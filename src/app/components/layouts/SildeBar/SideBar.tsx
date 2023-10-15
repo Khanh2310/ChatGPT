@@ -1,5 +1,5 @@
+"use client";
 import Image from "next/image";
-import React from "react";
 import chatGPTLogo from "../../../../../public/chatgpt.svg";
 
 import addBtn from "../../../../../public/add-30.svg";
@@ -10,8 +10,14 @@ import rocked from "../../../../../public/rocket.svg";
 import sendBtn from "../../../../../public/send.svg";
 import userIcon from "../../../../../public/user.jpg";
 import gptImgLogo from "../../../../../public/./ChatGPT_logo.svg.png";
-
+import { sendMessageToOpenAI } from "app/openai";
+import { useState } from "react";
 export const SideBar = () => {
+  const [send, setSend] = useState("");
+  const handleSendMessage = async () => {
+    const res = await sendMessageToOpenAI(send);
+    console.log(res);
+  };
   return (
     <>
       <div className="sidebar">
@@ -79,9 +85,14 @@ export const SideBar = () => {
         </div>
         <div className="chatFooter">
           <div className="inp">
-            <input type="text" placeholder="Send a message" />
+            <input
+              type="text"
+              placeholder="Send a message"
+              value={send}
+              onChange={(e) => setSend(e.target.value)}
+            />
             <button className="send">
-              <Image src={sendBtn} alt="Send" />
+              <Image src={sendBtn} alt="Send" onClick={handleSendMessage} />
             </button>
           </div>
           <p>
